@@ -1,52 +1,61 @@
 import 'package:flutter_notes_app/data/models/note.dart';
 
 import '../repository.dart';
+import 'database_helper.dart';
+import '../models/models.dart';
 
-class NotesRepository extends Repository{
+class NotesRepository extends Repository {
+  final dbHelper = DatabaseHelper.instance;
+
   @override
   void close() {
-    // TODO: implement close
+    dbHelper.close();
   }
 
   @override
   Future<void> deleteNote(Note note) {
-    // TODO: implement deleteNote
-    throw UnimplementedError();
+    dbHelper.deleteNote(note);
+    return Future.value();
   }
 
   @override
   Future<List<Note>> findAllNotes() {
-    // TODO: implement findAllNotes
-    throw UnimplementedError();
+    return dbHelper.findAllNotes();
   }
 
   @override
   Future<Note> findNoteById(int id) {
-    // TODO: implement findNoteById
-    throw UnimplementedError();
+    return dbHelper.findNoteById(id);
   }
 
   @override
-  Future init() {
-    // TODO: implement init
-    throw UnimplementedError();
+  Future init() async{
+    await dbHelper.database;
+    return Future.value();
   }
 
   @override
   Future<int> insertNote(Note note) {
-    // TODO: implement insertNote
-    throw UnimplementedError();
+    return Future(
+          () async {
+        final id = await dbHelper.insertNote(note);
+        return id;
+      },
+    );
   }
 
   @override
   Future<int> updateNote(Note note) {
-    // TODO: implement updateNote
-    throw UnimplementedError();
+    return Future(
+          () async {
+        final id = await dbHelper.updateNote(note);
+        return id;
+      },
+    );
   }
 
   @override
   Stream<List<Note>> watchAllNotes() {
-    // TODO: implement watchAllNotes
-    throw UnimplementedError();
+    return dbHelper.watchAllNotes();
   }
 }

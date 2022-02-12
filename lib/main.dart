@@ -8,6 +8,7 @@ import 'routes/app_router.gr.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final repository = NotesRepository();
+  await repository.init();
   final appRouter = AppRouter();
   runApp(
     MyApp(repository: repository, appRouter: appRouter),
