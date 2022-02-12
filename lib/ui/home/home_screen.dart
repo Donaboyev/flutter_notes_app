@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../ui.dart';
 
@@ -14,7 +15,7 @@ class HomeScreen extends StatelessWidget {
       stream: repository.watchAllNotes(),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
-          final notes = snapshot.data ?? [];
+          final List<Note> notes = snapshot.data ?? [];
           return Scaffold(
             appBar: AppBar(
               title:
@@ -57,25 +58,111 @@ class HomeScreen extends StatelessWidget {
                       )
               ],
             ),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Home screen'),
-                  TextButton(
-                    onPressed: () {
-                      context.pushRoute(const NoteDetailsRoute());
-                    },
-                    child: const Text('Go to details screen'),
+            body: notes.isEmpty
+                ? Container(
+                    color: Colors.white,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          'Click on the add button to add a new note!',
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(
+                    color: Colors.white,
+                    child: MasonryGridView.count(
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: notes.length,
+                      mainAxisSpacing: 4.0,
+                      crossAxisSpacing: 4.0,
+                      crossAxisCount: 4,
+                      itemBuilder: (BuildContext context, int index) =>
+                          GestureDetector(
+                        onTap: () {
+                          // navigateToDetail(noteList[index], 'Edit Note');
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              color: AppHelper.colors[notes[index].color ?? 0],
+                              border: Border.all(width: 2, color: Colors.black),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          notes[index].title ?? '',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2,
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      AppHelper.getPriorityText(
+                                          notes[index].priority ?? 0),
+                                      style: TextStyle(
+                                        color: AppHelper.getPriorityColor(
+                                            notes[index].priority ?? 0),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Text(
+                                          notes[index].description ?? '',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    Text(
+                                      notes[index].date ?? '',
+                                      style:
+                                          Theme.of(context).textTheme.subtitle2,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      context.pushRoute(const SearchRoute());
-                    },
-                    child: const Text('Go to search screen'),
-                  ),
-                ],
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                // navigateToDetail(Note('', '', 3, 0), 'Add Note');
+              },
+              tooltip: 'Add Note',
+              shape: const CircleBorder(
+                side: BorderSide(color: Colors.black, width: 2.0),
               ),
+              child: const Icon(Icons.add, color: Colors.black),
+              backgroundColor: Colors.white,
             ),
           );
         }
