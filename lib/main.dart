@@ -3,17 +3,23 @@ import 'package:provider/provider.dart';
 
 import 'data/db/notes_repository.dart';
 import 'data/repository.dart';
+import 'routes/app_router.gr.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final repository = NotesRepository();
-  runApp(MyApp(repository: repository));
+  final appRouter = AppRouter();
+  runApp(
+    MyApp(repository: repository, appRouter: appRouter),
+  );
 }
 
 class MyApp extends StatelessWidget {
   final Repository repository;
+  final AppRouter appRouter;
 
-  const MyApp({Key? key, required this.repository}) : super(key: key);
+  const MyApp({Key? key, required this.repository, required this.appRouter})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +31,11 @@ class MyApp extends StatelessWidget {
           dispose: (_, Repository repository) => repository.close(),
         )
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
         title: 'Notes App',
         debugShowCheckedModeBanner: false,
+        routerDelegate: appRouter.delegate(),
+        routeInformationParser: appRouter.defaultRouteParser(),
       ),
     );
   }
