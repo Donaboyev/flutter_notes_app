@@ -15,8 +15,6 @@ class NoteDetailsScreen extends StatelessWidget {
     bool _isEdited = false;
     String _title = '';
     String _description = '';
-    int _color = 0;
-    int _priority = 0;
     final repository = Provider.of<Repository>(context);
     return WillPopScope(
       onWillPop: () async {
@@ -25,108 +23,111 @@ class NoteDetailsScreen extends StatelessWidget {
       },
       child: Consumer<NoteDetailNotifier>(
         builder: (context, notifier, child) {
-          return Scaffold(
-            appBar: AppBar(
-              elevation: 0,
-              title: Text(
-                note != null ? 'Edit note' : 'Add note',
-                style: Theme.of(context).textTheme.headline5,
-              ),
-              backgroundColor: AppHelper.colors[note?.color ?? 0],
-              leading: IconButton(
-                splashRadius: 22,
-                icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
-                onPressed: () {
-                  _isEdited
-                      ? showDiscardDialog(context)
-                      : Navigator.pop(context, true);
-                },
-              ),
-              actions: <Widget>[
-                IconButton(
+          debugPrint('=============> details screen priority: ${notifier.priority}');
+          debugPrint('=============> details screen color: ${notifier.color}');
+          return KeyboardDismisser(
+            child: Scaffold(
+              backgroundColor: AppHelper.colors[notifier.color],
+              appBar: AppBar(
+                elevation: 0,
+                title: Text(
+                  note != null ? 'Edit note' : 'Add note',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                backgroundColor: AppHelper.colors[notifier.color],
+                leading: IconButton(
                   splashRadius: 22,
-                  icon: const Icon(
-                    Icons.save,
-                    color: Colors.black,
-                  ),
+                  icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
                   onPressed: () {
-                    _title.trim().isEmpty
-                        ? showEmptyTitleDialog(context)
-                        : _save(
-                            context,
-                            title: _title,
-                            description: _description,
-                            repository: repository,
-                            color: _color,
-                            priority: _priority,
-                          );
+                    _isEdited
+                        ? showDiscardDialog(context)
+                        : Navigator.pop(context, true);
                   },
                 ),
-                IconButton(
-                  splashRadius: 22,
-                  icon: const Icon(Icons.delete, color: Colors.black),
-                  onPressed: () {
-                    showDeleteDialog(context, repository);
-                  },
-                )
-              ],
-            ),
-            body: Container(
-              color: AppHelper.colors[_color],
-              child: Column(
-                children: <Widget>[
-                  PriorityPicker(
-                    selectedIndex: notifier.priority,
-                    onTap: (index) {
-                      _isEdited = true;
-                      _priority = index;
-                      debugPrint('====> change priority $_priority');
-                      notifier.changePriority(_priority);
-                    },
-                  ),
-                  ColorPicker(
-                    selectedIndex: note?.color ?? 0,
-                    onTap: (index) {
-                      // setState(() {
-                      //   _color = index;
-                      // });
-                      _isEdited = true;
-                      _color = index;
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: TextField(
-                      maxLength: 255,
-                      style: Theme.of(context).textTheme.bodyText2,
-                      onChanged: (value) {
-                        _isEdited = true;
-                        _title = value;
-                      },
-                      decoration: const InputDecoration.collapsed(
-                        hintText: 'Title',
-                      ),
+                actions: <Widget>[
+                  IconButton(
+                    splashRadius: 22,
+                    icon: const Icon(
+                      Icons.save,
+                      color: Colors.black,
                     ),
+                    onPressed: () {
+                      _title.trim().isEmpty
+                          ? showEmptyTitleDialog(context)
+                          : _save(
+                              context,
+                              title: _title,
+                              description: _description,
+                              repository: repository,
+                              color: notifier.color,
+                              priority: notifier.priority,
+                            );
+                    },
                   ),
-                  Expanded(
-                    child: Padding(
+                  IconButton(
+                    splashRadius: 22,
+                    icon: const Icon(Icons.delete, color: Colors.black),
+                    onPressed: () {
+                      showDeleteDialog(context, repository);
+                    },
+                  )
+                ],
+              ),
+              body: Container(
+                color: AppHelper.colors[notifier.color],
+                child: Column(
+                  children: <Widget>[
+                    PriorityPicker(
+                      selectedIndex: notifier.priority,
+                      onTap: (index) {
+                        _isEdited = true;
+                        notifier.changePriority(index);
+                      },
+                    ),
+                    ColorPicker(
+                      selectedIndex: notifier.color,
+                      onTap: (index) {
+                        // setState(() {
+                        //   _color = index;
+                        // });
+                        _isEdited = true;
+                        notifier.changeColor(index);
+                      },
+                    ),
+                    Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextField(
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 10,
                         maxLength: 255,
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Theme.of(context).textTheme.bodyText2,
                         onChanged: (value) {
                           _isEdited = true;
-                          _description = value;
+                          _title = value;
                         },
                         decoration: const InputDecoration.collapsed(
-                          hintText: 'Description',
+                          hintText: 'Title',
                         ),
                       ),
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextField(
+                          keyboardType: TextInputType.multiline,
+                          maxLines: 10,
+                          maxLength: 255,
+                          style: Theme.of(context).textTheme.bodyText1,
+                          onChanged: (value) {
+                            _isEdited = true;
+                            _description = value;
+                          },
+                          decoration: const InputDecoration.collapsed(
+                            hintText: 'Description',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../ui.dart';
+import '../details/note_detail_notifier.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -67,6 +68,7 @@ class HomeScreen extends StatelessWidget {
                         child: Text(
                           'Click on the add button to add a new note!',
                           style: Theme.of(context).textTheme.bodyText2,
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
@@ -78,7 +80,7 @@ class HomeScreen extends StatelessWidget {
                       itemCount: notes.length,
                       mainAxisSpacing: 4.0,
                       crossAxisSpacing: 4.0,
-                      crossAxisCount: 4,
+                      crossAxisCount: 2,
                       itemBuilder: (BuildContext context, int index) =>
                           GestureDetector(
                         onTap: () {
@@ -154,8 +156,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                context.pushRoute(const NoteDetailsRoute());
+              onPressed: () async{
+                final  response = await context.pushRoute(const NoteDetailsRoute());
+                debugPrint('=======> response: $response');
+
               },
               tooltip: 'Add Note',
               shape: const CircleBorder(

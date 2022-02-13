@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'data/db/notes_repository.dart';
 import 'data/repository.dart';
@@ -42,6 +43,39 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routerDelegate: appRouter.delegate(),
         routeInformationParser: appRouter.defaultRouteParser(),
+        theme: ThemeData(
+          primarySwatch: Colors.deepPurple,
+          textTheme: TextTheme(
+            headline5: GoogleFonts.poppins(
+              textStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 24,
+              ),
+            ),
+            bodyText2: GoogleFonts.poppins(
+              textStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 20,
+              ),
+            ),
+            bodyText1: GoogleFonts.poppins(
+              textStyle: const TextStyle(
+                fontWeight: FontWeight.normal,
+                color: Colors.black,
+                fontSize: 18,
+              ),
+            ),
+            subtitle2: GoogleFonts.poppins(
+              textStyle: const TextStyle(
+                fontWeight: FontWeight.normal,
+                color: Colors.black,
+                fontSize: 14,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

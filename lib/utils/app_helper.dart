@@ -16,11 +16,11 @@ class AppHelper {
 
   static String getPriorityText(int priority) {
     switch (priority) {
-      case 1:
-        return '!!!';
       case 2:
+        return '!!!';
+      case 1:
         return '!!';
-      case 3:
+      case 0:
         return '!';
       default:
         return '!';
@@ -29,11 +29,11 @@ class AppHelper {
 
   static Color getPriorityColor(int priority) {
     switch (priority) {
-      case 1:
-        return Colors.red;
       case 2:
+        return Colors.red;
+      case 1:
         return Colors.yellow;
-      case 3:
+      case 0:
         return Colors.green;
       default:
         return Colors.yellow;
