@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 
 class PriorityPicker extends StatelessWidget {
   final Function(int) onTap;
-  final int? selectedIndex;
+  final int selectedIndex;
 
-  const PriorityPicker({Key? key, this.selectedIndex, required this.onTap})
-      : super(key: key);
+  const PriorityPicker({
+    Key? key,
+    required this.selectedIndex,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

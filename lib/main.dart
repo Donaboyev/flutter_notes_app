@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'data/db/notes_repository.dart';
 import 'data/repository.dart';
 import 'routes/app_router.gr.dart';
+import 'ui/details/note_detail_notifier.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +31,11 @@ class MyApp extends StatelessWidget {
           lazy: false,
           create: (_) => repository,
           dispose: (_, Repository repository) => repository.close(),
-        )
+        ),
+        ChangeNotifierProvider<NoteDetailNotifier>(
+          lazy: false,
+          create: (_) => NoteDetailNotifier(),
+        ),
       ],
       child: MaterialApp.router(
         title: 'Notes App',

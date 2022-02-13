@@ -3,10 +3,13 @@ import '../utils/app_helper.dart';
 
 class ColorPicker extends StatelessWidget {
   final Function(int) onTap;
-  final int? selectedIndex;
+  final int selectedIndex;
 
-  const ColorPicker({Key? key, this.selectedIndex, required this.onTap})
-      : super(key: key);
+  const ColorPicker({
+    Key? key,
+    required this.selectedIndex,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
