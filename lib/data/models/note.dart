@@ -18,6 +18,23 @@ class Note extends Equatable {
     this.priority,
   });
 
+  Note copyWith({
+    int? id,
+    String? title,
+    String? description,
+    String? date,
+    int? color,
+    int? priority,
+  }) =>
+      Note(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        description: description ?? this.description,
+        date: date ?? this.date,
+        color: color ?? this.color,
+        priority: priority ?? this.priority,
+      );
+
   @override
   List<Object?> get props => [
         title,

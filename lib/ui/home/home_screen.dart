@@ -155,7 +155,7 @@ class HomeScreen extends StatelessWidget {
                   ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                // navigateToDetail(Note('', '', 3, 0), 'Add Note');
+                context.pushRoute(const NoteDetailsRoute());
               },
               tooltip: 'Add Note',
               shape: const CircleBorder(
