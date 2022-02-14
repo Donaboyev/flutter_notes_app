@@ -30,9 +30,10 @@ class AppRouter extends _i2.RootStackRouter {
           barrierDismissible: false);
     },
     NoteDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<NoteDetailsRouteArgs>();
       return _i2.CustomPage<dynamic>(
           routeData: routeData,
-          child: const _i1.NoteDetailsScreen(),
+          child: _i1.NoteDetailsScreen(key: args.key, note: args.note),
           transitionsBuilder: _i2.TransitionsBuilders.slideLeft,
           opaque: true,
           barrierDismissible: false);
@@ -65,10 +66,25 @@ class HomeRoute extends _i2.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i1.NoteDetailsScreen]
-class NoteDetailsRoute extends _i2.PageRouteInfo<void> {
-  const NoteDetailsRoute() : super(NoteDetailsRoute.name, path: '/details');
+class NoteDetailsRoute extends _i2.PageRouteInfo<NoteDetailsRouteArgs> {
+  NoteDetailsRoute({_i3.Key? key,  _i1.Note? note})
+      : super(NoteDetailsRoute.name,
+            path: '/details', args: NoteDetailsRouteArgs(key: key, note: note));
 
   static const String name = 'NoteDetailsRoute';
+}
+
+class NoteDetailsRouteArgs {
+  const NoteDetailsRouteArgs({this.key,  this.note});
+
+  final _i3.Key? key;
+
+  final _i1.Note? note;
+
+  @override
+  String toString() {
+    return 'NoteDetailsRouteArgs{key: $key, note: $note}';
+  }
 }
 
 /// generated route for

@@ -23,8 +23,6 @@ class NoteDetailsScreen extends StatelessWidget {
       },
       child: Consumer<NoteDetailNotifier>(
         builder: (context, notifier, child) {
-          debugPrint('=============> details screen priority: ${notifier.priority}');
-          debugPrint('=============> details screen color: ${notifier.color}');
           return KeyboardDismisser(
             child: Scaffold(
               backgroundColor: AppHelper.colors[notifier.color],

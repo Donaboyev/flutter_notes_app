@@ -83,7 +83,17 @@ class HomeScreen extends StatelessWidget {
                       crossAxisCount: 2,
                       itemBuilder: (BuildContext context, int index) =>
                           GestureDetector(
-                        onTap: () {
+                        onTap: () async {
+                          Provider.of<NoteDetailNotifier>(
+                            context,
+                            listen: false,
+                          ).changeColor(notes[index].color ?? 0);
+                          Provider.of<NoteDetailNotifier>(
+                            context,
+                            listen: false,
+                          ).changePriority(notes[index].priority ?? 0);
+                          final response =
+                              await context.pushRoute( NoteDetailsRoute(note: notes[index]));
                           // navigateToDetail(noteList[index], 'Edit Note');
                         },
                         child: Padding(
@@ -156,10 +166,14 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () async{
-                final  response = await context.pushRoute(const NoteDetailsRoute());
+              onPressed: () async {
+                Provider.of<NoteDetailNotifier>(context, listen: false)
+                    .changeColor(0);
+                Provider.of<NoteDetailNotifier>(context, listen: false)
+                    .changePriority(0);
+                final response =
+                    await context.pushRoute( NoteDetailsRoute());
                 debugPrint('=======> response: $response');
-
               },
               tooltip: 'Add Note',
               shape: const CircleBorder(
