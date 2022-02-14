@@ -49,7 +49,7 @@ class DatabaseHelper {
     if (_database != null) return _database!;
     // Use this object to prevent concurrent access to data
     await lock.synchronized(
-          () async {
+      () async {
         // lazily instantiate the db the first time it is accessed
         if (_database == null) {
           _database = await _initDatabase();
@@ -68,9 +68,9 @@ class DatabaseHelper {
   List<Note> parseRecipes(List<Map<String, dynamic>> noteList) {
     final notes = <Note>[];
     for (var recipeMap in noteList) {
-        final recipe = Note.fromJson(recipeMap);
-        notes.add(recipe);
-      }
+      final recipe = Note.fromJson(recipeMap);
+      notes.add(recipe);
+    }
     return notes;
   }
 
@@ -102,13 +102,19 @@ class DatabaseHelper {
     return insert(noteTable, note.toJson());
   }
 
-  Future<int> update(String table, Map<String, dynamic> row) async {
+  Future<int> _update(String table, Map<String, dynamic> row, int id) async {
     final db = await instance.streamDatabase;
-    return db.update(table, row);
+    return db.update(
+      table,
+      row,
+      where: '$noteId = ?',
+      whereArgs: [id],
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   Future<int> updateNote(Note note) {
-    return update(noteTable, note.toJson());
+    return _update(noteTable, note.toJson(), note.id ?? 0);
   }
 
   Future<int> _delete(String table, String columnId, int id) async {

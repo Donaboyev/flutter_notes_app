@@ -13,8 +13,8 @@ class NoteDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool _isEdited = false;
-    String _title = '';
-    String _description = '';
+    String _title = note?.title ?? '';
+    String _description = note?.description ?? '';
     final repository = Provider.of<Repository>(context);
     return WillPopScope(
       onWillPop: () async {
@@ -85,16 +85,14 @@ class NoteDetailsScreen extends StatelessWidget {
                     ColorPicker(
                       selectedIndex: notifier.color,
                       onTap: (index) {
-                        // setState(() {
-                        //   _color = index;
-                        // });
                         _isEdited = true;
                         notifier.changeColor(index);
                       },
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: TextField(
+                      child: TextFormField(
+                        initialValue: note?.title,
                         maxLength: 255,
                         style: Theme.of(context).textTheme.bodyText2,
                         onChanged: (value) {
@@ -109,7 +107,8 @@ class NoteDetailsScreen extends StatelessWidget {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue: note?.description,
                           keyboardType: TextInputType.multiline,
                           maxLines: 10,
                           maxLength: 255,
