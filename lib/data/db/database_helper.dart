@@ -65,11 +65,11 @@ class DatabaseHelper {
     return _streamDatabase;
   }
 
-  List<Note> parseRecipes(List<Map<String, dynamic>> noteList) {
+  List<Note> parseNotes(List<Map<String, dynamic>> noteList) {
     final notes = <Note>[];
-    for (var recipeMap in noteList) {
-      final recipe = Note.fromJson(recipeMap);
-      notes.add(recipe);
+    for (var noteMap in noteList) {
+      final note = Note.fromJson(noteMap);
+      notes.add(note);
     }
     return notes;
   }
@@ -77,7 +77,7 @@ class DatabaseHelper {
   Future<List<Note>> findAllNotes() async {
     final db = await instance.streamDatabase;
     final noteList = await db.query(noteTable);
-    final notes = parseRecipes(noteList);
+    final notes = parseNotes(noteList);
     return notes;
   }
 
@@ -89,7 +89,7 @@ class DatabaseHelper {
   Future<Note> findNoteById(int id) async {
     final db = await instance.streamDatabase;
     final noteList = await db.query(noteTable, where: 'id = $id');
-    final notes = parseRecipes(noteList);
+    final notes = parseNotes(noteList);
     return notes.first;
   }
 

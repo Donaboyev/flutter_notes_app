@@ -11,6 +11,7 @@
 // ignore_for_file: type=lint
 
 import 'package:auto_route/auto_route.dart' as _i2;
+import 'package:flutter/cupertino.dart' as _i4;
 import 'package:flutter/material.dart' as _i3;
 
 import '../ui/ui.dart' as _i1;
@@ -30,7 +31,8 @@ class AppRouter extends _i2.RootStackRouter {
           barrierDismissible: false);
     },
     NoteDetailsRoute.name: (routeData) {
-      final args = routeData.argsAs<NoteDetailsRouteArgs>();
+      final args = routeData.argsAs<NoteDetailsRouteArgs>(
+          orElse: () => const NoteDetailsRouteArgs());
       return _i2.CustomPage<dynamic>(
           routeData: routeData,
           child: _i1.NoteDetailsScreen(key: args.key, note: args.note),
@@ -42,7 +44,7 @@ class AppRouter extends _i2.RootStackRouter {
       return _i2.CustomPage<dynamic>(
           routeData: routeData,
           child: const _i1.SearchScreen(),
-          transitionsBuilder: _i2.TransitionsBuilders.slideLeft,
+          transitionsBuilder: _i2.TransitionsBuilders.slideTop,
           opaque: true,
           barrierDismissible: false);
     }
@@ -67,7 +69,7 @@ class HomeRoute extends _i2.PageRouteInfo<void> {
 /// generated route for
 /// [_i1.NoteDetailsScreen]
 class NoteDetailsRoute extends _i2.PageRouteInfo<NoteDetailsRouteArgs> {
-  NoteDetailsRoute({_i3.Key? key,  _i1.Note? note})
+  NoteDetailsRoute({_i4.Key? key, _i1.Note? note})
       : super(NoteDetailsRoute.name,
             path: '/details', args: NoteDetailsRouteArgs(key: key, note: note));
 
@@ -75,9 +77,9 @@ class NoteDetailsRoute extends _i2.PageRouteInfo<NoteDetailsRouteArgs> {
 }
 
 class NoteDetailsRouteArgs {
-  const NoteDetailsRouteArgs({this.key,  this.note});
+  const NoteDetailsRouteArgs({this.key, this.note});
 
-  final _i3.Key? key;
+  final _i4.Key? key;
 
   final _i1.Note? note;
 

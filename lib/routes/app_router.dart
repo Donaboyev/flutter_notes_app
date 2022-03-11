@@ -19,7 +19,7 @@ import '../ui/ui.dart';
     CustomRoute(
       page: SearchScreen,
       path: '/search',
-      transitionsBuilder: TransitionsBuilders.slideLeft,
+      transitionsBuilder: TransitionsBuilders.slideTop,
     ),
   ],
 )

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:provider/provider.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../ui.dart';
@@ -33,6 +33,7 @@ class HomeScreen extends StatelessWidget {
                         color: Colors.black,
                       ),
                       onPressed: () async {
+                        context.pushRoute(const SearchRoute());
                         // final Note result = await showSearch(
                         //     context: context,
                         //     delegate: NotesSearch(notes: noteList));
@@ -92,8 +93,8 @@ class HomeScreen extends StatelessWidget {
                             context,
                             listen: false,
                           ).changePriority(notes[index].priority ?? 0);
-                          final response =
-                              await context.pushRoute( NoteDetailsRoute(note: notes[index]));
+                          final response = await context
+                              .pushRoute(NoteDetailsRoute(note: notes[index]));
                           // navigateToDetail(noteList[index], 'Edit Note');
                         },
                         child: Padding(
@@ -171,8 +172,7 @@ class HomeScreen extends StatelessWidget {
                     .changeColor(0);
                 Provider.of<NoteDetailNotifier>(context, listen: false)
                     .changePriority(0);
-                final response =
-                    await context.pushRoute( NoteDetailsRoute());
+                final response = await context.pushRoute(NoteDetailsRoute());
                 debugPrint('=======> response: $response');
               },
               tooltip: 'Add Note',
