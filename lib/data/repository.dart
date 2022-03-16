@@ -9,7 +9,7 @@ abstract class Repository {
 
   Future<int> insertNote(Note note);
 
-  Future<int> updateNote(Note note);
+  Future<bool> updateNote(Note note);
 
   Future<void> deleteNote(Note note);
 
