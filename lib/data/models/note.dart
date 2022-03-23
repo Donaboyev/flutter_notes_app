@@ -1,5 +1,23 @@
 import 'package:equatable/equatable.dart';
 
+import 'package:hive_flutter/hive_flutter.dart';
+
+part 'note.g.dart';
+
+@HiveType(typeId: 0)
+class NoteData extends HiveObject{
+  @HiveField(0)
+  String? title;
+  @HiveField(1)
+  String? description;
+  @HiveField(2)
+  String? date;
+  @HiveField(3)
+  int? color;
+  @HiveField(4)
+  String? priority;
+}
+
 // ignore: must_be_immutable
 class Note extends Equatable {
   int? id;
